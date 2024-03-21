@@ -42,6 +42,7 @@ jobs:
       - run: mvn test -P
 
   sonar:
+    needs: unit-test
     name: Build and analyze
     runs-on: ubuntu-latest
     steps:
