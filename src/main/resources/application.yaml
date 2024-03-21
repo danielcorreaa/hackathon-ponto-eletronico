@@ -1,0 +1,49 @@
+server:
+  port: 8082
+spring:
+  application:
+    name: thackathon-ponto-eletronico
+  data:
+    mongodb:
+      authentication-database: admin
+      host: localhost
+      port: 27017
+      database: tech-ponto
+      username: root
+      password: example
+
+
+  main:
+    allow-bean-definition-overriding: true
+  mail:
+    host: smtp.gmail.com
+    password: lxzi mgpi owfg ruvd
+    port: 587
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+    username: danielaleixocorrea35@gmail.com
+
+logging:
+  level:
+    org:
+      springframework:
+        data:
+          mongodb:
+            core:
+              MongoTemplate: DEBUG
+
+
+mail:
+  remetente: "danielaleixocorrea35@gmail.com"
+  texto: "Segue em anexo Espelho de Ponto"
+  assunto: "Espelho de ponto"
+  anexo: "espelho-ponto"
+
+api:
+  security:
+    token:
+      secret: 123445

@@ -1,0 +1,140 @@
+name: Java CI with Maven
+on:
+  push:
+    branches:
+      [main]
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  unit-test:
+    name: Test Coverage
+    runs-on: ubuntu-latest
+    steps:
+
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - run: mvn test
+      - name: Generate JaCoCo Badge
+        id: jacoco
+        uses: cicirello/jacoco-badge-generator@v2.11.0
+        with:
+          fail-if-coverage-less-than: 0.1
+          generate-coverage-endpoint: true
+          generate-summary: true
+
+  integration-test:
+    needs: unit-test
+    name: Test Integration
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - run: mvn test -P
+
+  sonar:
+    name: Build and analyze
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+      - name: Set up JDK 17
+        uses: actions/setup-java@v3
+        with:
+          java-version: 17
+          distribution: 'zulu' # Alternative distribution options are available.
+      - name: Cache SonarCloud packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.sonar/cache
+          key: ${{ runner.os }}-sonar
+          restore-keys: ${{ runner.os }}-sonar
+      - name: Cache Maven packages
+        uses: actions/cache@v3
+        with:
+          path: ~/.m2
+          key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+          restore-keys: ${{ runner.os }}-m2
+      - name: Build and analyze
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify org.sonarsource.scanner.maven:sonar-maven-plugin:sonar -Dsonar.projectKey=danielcorreaa_hackathon-ponto-eletronico
+
+  build:
+    name: Build Application
+    runs-on: ubuntu-latest
+    needs: sonar
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up JDK 17
+        uses: actions/setup-java@v4
+        with:
+          java-version: '17'
+          distribution: 'temurin'
+          cache: maven
+      - run: mvn clean install
+
+  docker-pull-image:
+    name: Pull Image Docker Hub
+    #if: github.ref == 'refs/heads/develop' || github.ref == 'refs/heads/release' || github.ref == 'refs/heads/main'
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+      - name: Build project
+        run: mvn clean install -DskipTests
+      - name: Login Docker Hub
+        run: docker login -u daniel36 -p ${{ secrets.PASSWORD_DOCKER_HUB }}
+      - name: Build docker image
+        run: docker build -t daniel36/hackathon-ponto-eletronico:${{github.run_number}} .
+      - name: Push image docker
+        run: docker push daniel36/hackathon-ponto-eletronico:${{github.run_number}}
+
+      - name: Build docker image latest
+        run: docker build -t daniel36/hackathon-ponto-eletronico:latest .
+      - name: Push image docker latest
+        run: docker push daniel36/hackathon-ponto-eletronico:latest
+
+  deploy-prod:
+    name: Deploy production aws
+    needs: docker-pull-image
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: configurando credenciais da AWS
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.ID_CHAVE_ACESSO }}
+          aws-secret-access-key: ${{ secrets.CHAVE_SECRETA }}
+          aws-region: us-east-1
+      - name: Kubectl tool installer
+        uses: Azure/setup-kubectl@v3
+
+      - run: aws sts get-caller-identity
+
+      - run: aws eks update-kubeconfig --region us-east-1 --name prod-tech
+
+      - run: kubectl get svc
+
+      - run: kubectl apply -f k8s/hackathon-deployment.yaml
+      - run: kubectl apply -f k8s/hackathon-service.yaml
+      - run: kubectl set image deployment/hackathon hackathon=daniel36/hackathon-ponto-eletronico:${{github.run_number}}
+      - run: kubectl apply -f k8s/hackathon-hpa.yaml
+      - run: kubectl get svc
