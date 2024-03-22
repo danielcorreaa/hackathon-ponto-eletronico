@@ -12,9 +12,9 @@ import org.springframework.stereotype.Component;
 public class AuthenticationManagerGateway implements AuthenticationGateway {
 
 
-    private AuthenticationManager manager;
+    private final AuthenticationManager manager;
 
-    private AuthenticationMapper authenticationMapper;
+    private final AuthenticationMapper authenticationMapper;
 
     public AuthenticationManagerGateway(AuthenticationManager manager, AuthenticationMapper authenticationMapper) {
         this.manager = manager;

@@ -4,11 +4,12 @@ import com.techchallenge.domain.entity.Email;
 import com.techchallenge.domain.entity.Ponto;
 import com.techchallenge.domain.entity.Usuario;
 
+import java.util.List;
+
 public interface PontoUseCase {
 
 
     Ponto insert(String loginUsuario);
-    Ponto findById(String loginUsuario);
-
-    void gerarRelatorioPorMes(int mes, int ano, String loginUsuario);
+    List<Ponto> find(String loginUsuario, int mes, int ano);
+    void  gerarRelatorioPorMes(String loginUsuario, int mes, List<Ponto> pontos);
 }

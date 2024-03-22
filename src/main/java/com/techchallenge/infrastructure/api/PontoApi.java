@@ -21,15 +21,16 @@ import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/ponto")
 @Tag(name = "Login API")
 public class PontoApi {
 
-    private PontoUseCase pontoUseCase;
-    private PontoMapper pontoMapper;
-    private TokenUseCase tokenUseCase;
+    private final PontoUseCase pontoUseCase;
+    private final PontoMapper pontoMapper;
+    private final TokenUseCase tokenUseCase;
 
     public PontoApi(PontoUseCase pontoUseCase, PontoMapper pontoMapper, TokenUseCase tokenUseCase) {
         this.pontoUseCase = pontoUseCase;
@@ -39,19 +40,22 @@ public class PontoApi {
 
     @PostMapping
     public ResponseEntity<Result<PontoResponse>> insert(HttpServletRequest request, UriComponentsBuilder uri) {
-        String tokenJwt = tokenUseCase.recuperarToken(request);
-        String loginUsuario = tokenUseCase.getSubject(tokenJwt);
+        String loginUsuario = getLoginUsuario(request);
         Ponto ponto = pontoUseCase.insert(loginUsuario);
         UriComponents uriComponents = uri.path("/api/v1/ponto/find/{id}").buildAndExpand(ponto.getId());
         var result = Result.create(pontoMapper.toPontoResponse(ponto));
         return ResponseEntity.created(uriComponents.toUri()).headers(result.getHeadersNosniff()).body(result);
     }
 
-    @GetMapping("/find/{id}")
-    public ResponseEntity<Result<PontoResponse>> findByid(@PathVariable String id) {
-        Ponto ponto = pontoUseCase.findById(id);
-        return ResponseEntity.ok(Result.ok(pontoMapper.toPontoResponse(ponto)));
+    @GetMapping("/find/{mes}/{ano}")
+    public ResponseEntity<Result<List<PontoResponse>>> findByid(HttpServletRequest request,
+                                                          @PathVariable int mes, @PathVariable int ano) {
+        String loginUsuario = getLoginUsuario(request);
+        List<Ponto> pontos = pontoUseCase.find(loginUsuario, mes, ano);
+        return ResponseEntity.ok(Result.ok(pontoMapper.toPontoResponseList(pontos)));
     }
+
+
 
     @PostMapping("/relatorio/mensal")
     public ResponseEntity<Result<String>> gerarRelatorio(HttpServletRequest request,
@@ -59,11 +63,21 @@ public class PontoApi {
         if(relatorioRequest.mes() == DataHelper.mesAtual()){
             throw new BusinessException("Relatório não pode ser gerado para o mês corrente");
         }
-        String tokenJwt = tokenUseCase.recuperarToken(request);
-        String loginUsuario = tokenUseCase.getSubject(tokenJwt);
 
-        pontoUseCase.gerarRelatorioPorMes(relatorioRequest.mes(), relatorioRequest.ano(), loginUsuario);
+        String login = getLoginUsuario(request);
+        List<Ponto> pontos = pontoUseCase.find(login, relatorioRequest.mes(), relatorioRequest.ano());
+
+        if(pontos.isEmpty()){
+            throw new BusinessException("Não foi encontrado nenhum ponto para o período informado");
+        }
+
+        pontoUseCase.gerarRelatorioPorMes(login, relatorioRequest.mes(), pontos);
 
         return ResponseEntity.ok(Result.ok("Gerando relatório"));
+    }
+
+    private String getLoginUsuario(HttpServletRequest request) {
+        String tokenJwt = tokenUseCase.recuperarToken(request);
+        return tokenUseCase.getSubject(tokenJwt);
     }
 }

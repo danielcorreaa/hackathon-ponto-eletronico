@@ -6,6 +6,8 @@ import com.techchallenge.domain.entity.Usuario;
 import com.techchallenge.infrastructure.api.dto.PontoResponse;
 import org.springframework.stereotype.Component;
 
+import java.util.List;
+
 @Component
 public class PontoMapper {
     public PontoResponse toPontoResponse(Ponto ponto) {
@@ -22,4 +24,7 @@ public class PontoMapper {
                 .build();
     }
 
+    public List<PontoResponse> toPontoResponseList(List<Ponto> pontos) {
+        return pontos.stream().map(this::toPontoResponse).toList();
+    }
 }
