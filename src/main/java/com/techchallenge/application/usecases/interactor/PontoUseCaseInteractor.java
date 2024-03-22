@@ -65,7 +65,6 @@ public class PontoUseCaseInteractor implements PontoUseCase {
 
         Email email = toEmail(emailValues, usuario, ".pdf");
 
-        Tas
         processar(mes, pontos,usuario,email);
     }
 
