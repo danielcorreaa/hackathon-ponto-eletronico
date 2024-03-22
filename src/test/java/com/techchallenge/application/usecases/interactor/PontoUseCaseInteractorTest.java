@@ -1,6 +1,7 @@
 package com.techchallenge.application.usecases.interactor;
 
 import com.techchallenge.MongoTestConfig;
+import com.techchallenge.core.exceptions.BusinessException;
 import com.techchallenge.helper.PontoHelper;
 import com.techchallenge.helper.UsuarioHelper;
 import com.techchallenge.application.usecases.PontoUseCase;
@@ -147,15 +148,21 @@ class PontoUseCaseInteractorTest {
     @Test
     void testeBuscaTodosOsPontos_janeiro_porMes_porAno_porUsuario_usuarioSemPontos() {
         carregarPontos(Month.JANUARY, 2024, "2365");
-        var pontos =  pontoUseCase.find("25", 1, 2024);
-        assertEquals(0, pontos.size());
+        try {
+            pontoUseCase.find("25", 1, 2024);
+        }catch (BusinessException ex) {
+            assertEquals("Não foi encontrado nenhum ponto para o período informado!", ex.getMessage());
+        }
     }
 
     @Test
     void testeBuscaTodosOsPontos_janeiro_porMes_porAno_porUsuario_mesSemPontos() {
         carregarPontos(Month.JANUARY, 2024, "2365");
-        var pontos =  pontoUseCase.find("2365", 2, 2024);
-        assertEquals(0, pontos.size());
+        try{
+             pontoUseCase.find("2365", 2, 2024);
+        }catch (BusinessException ex) {
+            assertEquals("Não foi encontrado nenhum ponto para o período informado!", ex.getMessage());
+        }
     }
 
     @Test

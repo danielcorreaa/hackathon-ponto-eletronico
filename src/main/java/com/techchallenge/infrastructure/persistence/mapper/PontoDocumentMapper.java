@@ -2,7 +2,7 @@ package com.techchallenge.infrastructure.persistence.mapper;
 
 import com.techchallenge.domain.entity.Ponto;
 import com.techchallenge.domain.entity.Usuario;
-import com.techchallenge.domain.valueObject.PontoId;
+import com.techchallenge.domain.valueObject.ProntoId;
 import com.techchallenge.infrastructure.persistence.document.PontoDocument;
 import org.springframework.stereotype.Component;
 
@@ -26,7 +26,7 @@ public class PontoDocumentMapper {
 
     public Ponto toPonto(PontoDocument ponto) {
        return Ponto.PontoBuilder.aPonto()
-                .pontoId(new PontoId(ponto.getMatriculaUsuario(), ponto.getDataPonto()))
+                .pontoId(new ProntoId(ponto.getMatriculaUsuario(), ponto.getDataPonto()))
                 .usuario(Usuario.UsuarioBuilder.anUsuario().matricula(ponto.getMatriculaUsuario()).build())
                 .dataPonto(ponto.getDataPonto())
                 .horaSaida(ponto.getHoraSaida())

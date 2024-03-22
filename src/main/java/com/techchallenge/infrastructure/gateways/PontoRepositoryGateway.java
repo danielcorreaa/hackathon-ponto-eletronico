@@ -6,10 +6,7 @@ import com.techchallenge.infrastructure.persistence.mapper.PontoDocumentMapper;
 import com.techchallenge.infrastructure.persistence.repository.PontoRepository;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Component;
-import org.springframework.stereotype.Repository;
 
-import java.time.LocalDate;
-import java.time.temporal.TemporalAdjusters;
 import java.util.List;
 import java.util.Optional;
 

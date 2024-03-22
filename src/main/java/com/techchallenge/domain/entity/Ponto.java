@@ -1,5 +1,5 @@
 package com.techchallenge.domain.entity;
-import com.techchallenge.domain.valueObject.PontoId;
+import com.techchallenge.domain.valueObject.ProntoId;
 
 import java.time.Duration;
 import java.time.LocalDate;
@@ -14,7 +14,7 @@ public class Ponto {
 
     public static final String FORMAT_DATE_TIME = "dd/MM/yyyy HH:mm";
     private static final String FORMAT_DATE = "dd/MM/yyyy";
-    private PontoId pontoId;
+    private ProntoId pontoId;
     private Usuario usuario;
     private LocalDate dataPonto;
     private LocalDateTime horaEntrada;
@@ -27,7 +27,7 @@ public class Ponto {
     public Ponto(Usuario usuario, LocalDateTime horaEntrada) {
         this.usuario = usuario;
         this.dataPonto = horaEntrada.toLocalDate();
-        this.pontoId = new PontoId(usuario.getMatricula(), dataPonto);
+        this.pontoId = new ProntoId(usuario.getMatricula(), dataPonto);
         this.horaEntrada = horaEntrada;
         this.mes = horaEntrada.getMonth().getValue();
         this.ano = horaEntrada.getYear();
@@ -107,7 +107,7 @@ public class Ponto {
     }
 
 
-    public PontoId getPontoId() {
+    public ProntoId getPontoId() {
         return pontoId;
     }
 
@@ -145,9 +145,7 @@ public class Ponto {
 
 
     public static final class PontoBuilder {
-        private String FORMAT_DATE_TIME;
-        private String FORMAT_DATE;
-        private PontoId pontoId;
+        private ProntoId pontoId;
         private Usuario usuario;
         private LocalDate dataPonto;
         private LocalDateTime horaEntrada;
@@ -164,17 +162,8 @@ public class Ponto {
             return new PontoBuilder();
         }
 
-        public PontoBuilder FORMAT_DATE_TIME(String FORMAT_DATE_TIME) {
-            this.FORMAT_DATE_TIME = FORMAT_DATE_TIME;
-            return this;
-        }
 
-        public PontoBuilder FORMAT_DATE(String FORMAT_DATE) {
-            this.FORMAT_DATE = FORMAT_DATE;
-            return this;
-        }
-
-        public PontoBuilder pontoId(PontoId pontoId) {
+        public PontoBuilder pontoId(ProntoId pontoId) {
             this.pontoId = pontoId;
             return this;
         }

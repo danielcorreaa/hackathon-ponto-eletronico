@@ -2,12 +2,12 @@ package com.techchallenge.domain.valueObject;
 
 import java.time.LocalDate;
 
-public class PontoId {
+public class ProntoId {
 
-    private String usuario;
-    private LocalDate dataPonto;
+    private final String usuario;
+    private final LocalDate dataPonto;
 
-    public PontoId(String usuario, LocalDate dataPonto) {
+    public ProntoId(String usuario, LocalDate dataPonto) {
         this.usuario = usuario;
         this.dataPonto = dataPonto;
     }

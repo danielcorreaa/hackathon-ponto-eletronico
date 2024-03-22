@@ -1,8 +1,6 @@
 package com.techchallenge.application.usecases;
 
-import com.techchallenge.domain.entity.Email;
 import com.techchallenge.domain.entity.Ponto;
-import com.techchallenge.domain.entity.Usuario;
 
 import java.util.List;
 
