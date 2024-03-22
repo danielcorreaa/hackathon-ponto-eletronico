@@ -42,9 +42,13 @@ spec:
           - name: TOKEN_SECURITY
             valueFrom:
               secretKeyRef:
-                name: token-secutoty
+                name: token-security
                 key: TOKEN_SECURITY
-
+          - name: EMAIL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: email-password
+                key: EMAIL_PASSWORD
 
 
 ---
