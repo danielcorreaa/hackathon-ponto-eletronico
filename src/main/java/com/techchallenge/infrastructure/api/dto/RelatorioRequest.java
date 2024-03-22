@@ -18,8 +18,8 @@ public record RelatorioRequest(
         Integer ano) {
 
         public void validacao(){
-                if(mes == DataHelper.mesAtual()){
-                        throw new BusinessException("Relatório não pode ser gerado para o mês corrente");
-                }
+           if(mes == DataHelper.mesAtual()){
+                throw new BusinessException("Relatório não pode ser gerado para o mês corrente");
+           }
         }
 }
