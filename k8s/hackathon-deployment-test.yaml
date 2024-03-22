@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: hackathon
+  labels:
+    app: hackathon
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: hackathon
+  template:
+    metadata:
+      labels:
+        app: hackathon
+    spec:
+      containers:
+      - name: hackathon
+        image: daniel36/hackathon-ponto-eletronico:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+          - name: http
+            containerPort: 8082
+        resources:
+          limits:
+            cpu: 0.2
+            memory: "512Mi"
+        env:
+          - name: MONGO_HOST
+            value: mongo-db
+          - name: MONGO_USERNAME
+            value: daniel
+          - name: MONGO_PASSWORD
+            value: daniel17
+
+          - name: TOKEN_SECURITY
+            value: 23232
+          - name: EMAIL_PASSWORD
+            value: test
+
+
+---

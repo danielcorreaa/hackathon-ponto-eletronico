@@ -46,7 +46,11 @@ public class PontoUseCaseInteractor implements PontoUseCase {
 
     @Override
     public List<Ponto> find(String loginUsuario, int mes, int ano) {
-        return pontoGateway.buscarPontoMensalPorUsuario(mes, ano, loginUsuario);
+        var pontos = pontoGateway.buscarPontoMensalPorUsuario(mes, ano, loginUsuario);
+        if(pontos.isEmpty()){
+            throw new BusinessException("Não foi encontrado nenhum ponto para o período informado!");
+        }
+        return pontos;
     }
 
 

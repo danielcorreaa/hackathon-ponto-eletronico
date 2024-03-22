@@ -6,58 +6,60 @@ import org.junit.jupiter.api.Test;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 class PontoTest {
 
-    //@Test
+    @Test
     void testeIniciarPonto() {
         Ponto ponto = getPonto();
-        Assertions.assertEquals("23232", ponto.getUsuario());
-        Assertions.assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
-        Assertions.assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
-        Assertions.assertNull(ponto.getHoraSaidaAlmoco());
-        Assertions.assertNull(ponto.getHoraVoldaAlmoco());
-        Assertions.assertNull(ponto.getHoraSaida());
+        assertEquals("23232", ponto.getUsuario().getMatricula());
+        assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
+        assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
+        assertNull(ponto.getHoraSaidaAlmoco());
+        assertNull(ponto.getHoraVoldaAlmoco());
+        assertNull(ponto.getHoraSaida());
     }
 
 
 
-   // @Test
+    @Test
     void testMarcarPontoSaidaAlmoco() {
         Ponto ponto = getPonto();
-        //ponto.marcarPontoSaidaAlmoco();
-        //Assertions.assertEquals("23232", ponto.getUsuario());
-        //Assertions.assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
-       // Assertions.assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
-        //Assertions.assertNotNull(ponto.getHoraSaidaAlmoco());
-        //Assertions.assertNull(ponto.getHoraVoldaAlmoco());
-        //.assertNull(ponto.getHoraSaida());
+        ponto.marcarPonto();
+        assertEquals("23232", ponto.getUsuario().getMatricula());
+        assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
+        assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
+        assertNotNull(ponto.getHoraSaidaAlmoco());
+        assertNull(ponto.getHoraVoldaAlmoco());
+        assertNull(ponto.getHoraSaida());
     }
 
-    //@Test
+    @Test
     void testMarcarPontoVootaAlmoco() {
         Ponto ponto = getPonto();
-      //  ponto.marcarPontoSaidaAlmoco();
-        //ponto.marcarPontoVootaAlmoco();
-        Assertions.assertEquals("23232", ponto.getUsuario());
-        Assertions.assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
-        Assertions.assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
-        Assertions.assertNotNull(ponto.getHoraSaidaAlmoco());
-        Assertions.assertNotNull(ponto.getHoraVoldaAlmoco());
-        Assertions.assertNull(ponto.getHoraSaida());
+        ponto.marcarPonto();
+        ponto.marcarPonto();
+        assertEquals("23232", ponto.getUsuario().getMatricula());
+        assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
+        assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
+        assertNotNull(ponto.getHoraSaidaAlmoco());
+        assertNotNull(ponto.getHoraVoldaAlmoco());
+        assertNull(ponto.getHoraSaida());
     }
 
-    //@Test
+    @Test
     void marcarPontoSaida() {
         Ponto ponto = getPonto();
-        //ponto.marcarPontoSaidaAlmoco();
-        //ponto.marcarPontoVootaAlmoco();
-       // ponto.marcarPontoSaida();
-        Assertions.assertEquals("23232", ponto.getUsuario());
-        Assertions.assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
-        Assertions.assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
-        Assertions.assertNotNull(ponto.getHoraSaidaAlmoco());
-        Assertions.assertNotNull(ponto.getHoraVoldaAlmoco());
-        Assertions.assertNotNull(ponto.getHoraSaida());
+        ponto.marcarPonto();
+        ponto.marcarPonto();
+        ponto.marcarPonto();
+        assertEquals("23232", ponto.getUsuario().getMatricula());
+        assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
+        assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
+        assertNotNull(ponto.getHoraSaidaAlmoco());
+        assertNotNull(ponto.getHoraVoldaAlmoco());
+        assertNotNull(ponto.getHoraSaida());
     }
 
     private static Ponto getPonto() {

@@ -1,8 +1,7 @@
 package com.techchallenge.infrastructure.api.mapper;
 
-import com.techchallenge.domain.entity.Email;
 import com.techchallenge.domain.entity.Ponto;
-import com.techchallenge.domain.entity.Usuario;
+import com.techchallenge.infrastructure.api.dto.ListaPontoResponse;
 import com.techchallenge.infrastructure.api.dto.PontoResponse;
 import org.springframework.stereotype.Component;
 
@@ -24,7 +23,9 @@ public class PontoMapper {
                 .build();
     }
 
-    public List<PontoResponse> toPontoResponseList(List<Ponto> pontos) {
-        return pontos.stream().map(this::toPontoResponse).toList();
+    public ListaPontoResponse toPontoResponseList(List<Ponto> pontos) {
+        double horas = pontos.stream().mapToDouble( Ponto::horasTrabalhadas).sum();
+        var pontosResponse = pontos.stream().map(this::toPontoResponse).toList();
+        return new ListaPontoResponse(pontosResponse, horas);
     }
 }

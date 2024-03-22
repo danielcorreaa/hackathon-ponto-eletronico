@@ -16,6 +16,9 @@ import java.util.List;
 
 @Component
 public class InitUsuarios implements  ApplicationListener<ContextRefreshedEvent> {
+    public static final String MAIL = "daniel.cor@outlook.com";
+    public static final String NUMBER123345 = "123345";
+    public static final String NUMBER123342 = "123342";
     private UsuarioRepository usuarioRepository;
 
     private PasswordEncoder passwordEncoder;
@@ -30,17 +33,17 @@ public class InitUsuarios implements  ApplicationListener<ContextRefreshedEvent>
 
     @Override
     public void onApplicationEvent(ContextRefreshedEvent event) {
-        UsuarioDocument usuario1 = getBuild("daniel.cor@outlook.com", "12367", "123341");
-        UsuarioDocument usuario2 = getBuild("daniel.cor@outlook.com", "12369", "123342");
-        UsuarioDocument usuario3 = getBuild("daniel.cor@outlook.com", "12361", "123343");
-        UsuarioDocument usuario4 = getBuild("daniel.cor@outlook.com", "12362", "123344");
-        UsuarioDocument usuario5 = getBuild("daniel.cor@outlook.com", "12363", "123345");
+        UsuarioDocument usuario1 = getBuild(MAIL, "12367", "123341");
+        UsuarioDocument usuario2 = getBuild(MAIL, "12369", NUMBER123342);
+        UsuarioDocument usuario3 = getBuild(MAIL, "12361", "123343");
+        UsuarioDocument usuario4 = getBuild(MAIL, "12362", "123344");
+        UsuarioDocument usuario5 = getBuild(MAIL, "12363", NUMBER123345);
         usuarioRepository.saveAll(List.of(usuario1, usuario2, usuario3, usuario4, usuario5));
-        gerarPontos(1, "123342" );
-        gerarPontos(2, "123342" );
+        gerarPontos(1, NUMBER123342);
+        gerarPontos(2, NUMBER123342 );
 
-        gerarPontos(1, "123345" );
-        gerarPontos(2, "123345" );
+        gerarPontos(1, NUMBER123345);
+        gerarPontos(2, NUMBER123345 );
     }
 
     private UsuarioDocument getBuild(String email, String senha, String matricula) {

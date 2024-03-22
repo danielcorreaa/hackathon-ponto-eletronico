@@ -7,6 +7,8 @@ import java.util.Locale;
 
 public class DataHelper {
 
+    private DataHelper() {}
+
     public static String nomeMes(int mes){
         Locale local = new Locale("pt", "BR");
         Month month = Month.of(mes);
