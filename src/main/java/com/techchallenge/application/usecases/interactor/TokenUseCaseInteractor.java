@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 
 public class TokenUseCaseInteractor implements TokenUseCase {
 
-    private TokenGateway tokenGateway;
-    private AuthenticationGateway authenticationGateway;
+    private final TokenGateway tokenGateway;
+    private final AuthenticationGateway authenticationGateway;
 
     public TokenUseCaseInteractor(TokenGateway tokenGateway, AuthenticationGateway authenticationGateway) {
         this.tokenGateway = tokenGateway;

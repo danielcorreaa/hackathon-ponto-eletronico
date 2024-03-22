@@ -16,11 +16,24 @@
 	<properties>
 		<java.version>17</java.version>
 		<tech.challenge.core.version>0.0.1</tech.challenge.core.version>
+
 		<maven.compiler.source>17</maven.compiler.source>
 		<maven.compiler.target>17</maven.compiler.target>
 
+		<testcontainers.version>1.17.6</testcontainers.version>
 		<sonar.organization>danielcorreaa</sonar.organization>
 		<sonar.host.url>https://sonarcloud.io</sonar.host.url>
+
+		<sonar.exclusions>
+			src/main/java/com/techchallenge/config/SpringApp.java,
+			src/main/java/com/techchallenge/config/UseCaseConfig.java
+			src/main/java/com/techchallenge/config/SecurityConfigurations.java
+			src/main/java/com/techchallenge/config/AsyncConfig.java
+		</sonar.exclusions>
+
+		<logback.version>1.4.12</logback.version>
+		<tomcat.version>10.1.16</tomcat.version>
+
 	</properties>
 	<dependencies>
 		<dependency>
@@ -41,6 +54,47 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.junit.jupiter</groupId>
+			<artifactId>junit-jupiter-api</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.junit.platform</groupId>
+			<artifactId>junit-platform-suite-api</artifactId>
+			<version>1.9.3</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>junit-jupiter</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>org.testcontainers</groupId>
+			<artifactId>mongodb</artifactId>
+			<scope>test</scope>
+			<exclusions>
+				<exclusion>
+					<groupId>junit</groupId>
+					<artifactId>junit</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
 		<dependency>
 			<groupId>com.techchallenge</groupId>
 			<artifactId>hackathon-ponto-eletronico-core</artifactId>

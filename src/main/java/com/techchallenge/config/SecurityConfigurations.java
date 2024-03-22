@@ -25,26 +25,20 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class SecurityConfigurations  {
 
 
-    private SecurityFilter securityFilter;
-
-    private static final String[] AUTH_WHITELIST = {
-            "/v2/api-docs", "/configuration/ui",
-            "/swagger-resources/**", "/configuration/**", "/swagger-ui.html"
-            , "/webjars/**", "/csrf", "/"
-    };
+    private final SecurityFilter securityFilter;
 
 
     public SecurityConfigurations(SecurityFilter securityFilter) {
         this.securityFilter = securityFilter;
     }
 
-    @Primary
+
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .sessionManagement(sess -> sess.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .authorizeHttpRequests(aut -> aut.requestMatchers(HttpMethod.POST, "/login")
-                        .permitAll().requestMatchers(AUTH_WHITELIST).permitAll()
+                        .permitAll()
                         .anyRequest().authenticated())
                 .addFilterBefore(securityFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();

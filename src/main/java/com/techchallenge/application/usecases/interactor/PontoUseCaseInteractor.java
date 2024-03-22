@@ -6,11 +6,9 @@ import com.techchallenge.domain.entity.Email;
 import com.techchallenge.domain.entity.Ponto;
 
 import com.techchallenge.core.exceptions.BusinessException;
-import com.techchallenge.core.exceptions.NotFoundException;
 import com.techchallenge.domain.entity.Usuario;
 import com.techchallenge.infrastructure.api.mapper.EmailValues;
 import com.techchallenge.infrastructure.helper.DataHelper;
-import jakarta.annotation.Nonnull;
 import org.springframework.scheduling.annotation.Async;
 
 import java.time.LocalDateTime;
@@ -18,11 +16,11 @@ import java.util.List;
 
 public class PontoUseCaseInteractor implements PontoUseCase {
 
-    private PontoGateway pontoGateway;
-    private GenerateGateway generateGateway;
-    private UsuarioGateway usuarioGateway;
-    private EmailGateway emailGateway;
-    private EmailValues emailValues;
+    private final PontoGateway pontoGateway;
+    private final GenerateGateway generateGateway;
+    private final UsuarioGateway usuarioGateway;
+    private final EmailGateway emailGateway;
+    private final EmailValues emailValues;
 
     public PontoUseCaseInteractor(PontoGateway pontoGateway, GenerateGateway generateGateway, UsuarioGateway usuarioGateway, EmailGateway emailGateway, EmailValues emailValues) {
         this.pontoGateway = pontoGateway;
@@ -36,9 +34,9 @@ public class PontoUseCaseInteractor implements PontoUseCase {
     public Ponto insert(String loginUsuario) {
         Usuario usuario =  usuarioGateway.findById(loginUsuario);
         Ponto ponto = new Ponto(usuario, LocalDateTime.now());
-        var talvezPonto = pontoGateway.findById(ponto.getId().orElse(""));
-        if(talvezPonto.isPresent()){
-            return talvezPonto.map(p ->  pontoGateway
+        var optionalPonto = pontoGateway.findById(ponto.getId().orElse(""));
+        if(optionalPonto.isPresent()){
+            return optionalPonto.map(p ->  pontoGateway
                     .insert(p.marcarPonto()))
                     .orElseThrow(() -> new BusinessException("Falha ao tentar marcar ponto!"));
         } else {
@@ -47,23 +45,16 @@ public class PontoUseCaseInteractor implements PontoUseCase {
     }
 
     @Override
-    public Ponto findById(String id) {
-        return pontoGateway.findById(id).orElseThrow(() -> new NotFoundException("Ponto não encontrado!"));
+    public List<Ponto> find(String loginUsuario, int mes, int ano) {
+        return pontoGateway.buscarPontoMensalPorUsuario(mes, ano, loginUsuario);
     }
+
 
     @Async("gerar-relatorio")
     @Override
-    public void gerarRelatorioPorMes(int mes, int ano, String loginUsuario) {
+    public void gerarRelatorioPorMes(String loginUsuario, int mes, List<Ponto> pontos) {
         Usuario usuario =  usuarioGateway.findById(loginUsuario);
-
-        List<Ponto> pontos = pontoGateway.buscarPontoMensalPorUsuario(mes, ano, usuario.getMatricula());
-
-        if(pontos.isEmpty()){
-            throw new BusinessException("Não foi encontrado nenhum ponto para o período informado");
-        }
-
         Email email = toEmail(emailValues, usuario, ".pdf");
-
         generateGateway.generate(pontos, usuario, DataHelper.nomeMes(mes), email.getAnexo());
         emailGateway.send(email);
     }

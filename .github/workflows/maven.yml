@@ -23,9 +23,9 @@ jobs:
         id: jacoco
         uses: cicirello/jacoco-badge-generator@v2.11.0
         with:
-          fail-if-coverage-less-than: 0.0
-          generate-coverage-endpoint: false
-          generate-summary: false
+          fail-if-coverage-less-than: 3
+          generate-coverage-endpoint: true
+          generate-summary: true
   sonar:
     needs: unit-test
     name: Build and analyze

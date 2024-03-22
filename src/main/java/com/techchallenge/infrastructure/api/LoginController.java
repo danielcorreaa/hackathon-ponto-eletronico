@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @Tag(name = "Ponto API")
 public class LoginController {
 
-    private TokenUseCase tokenUseCase;
+    private final TokenUseCase tokenUseCase;
 
     public LoginController(TokenUseCase tokenUseCase) {
         this.tokenUseCase = tokenUseCase;
