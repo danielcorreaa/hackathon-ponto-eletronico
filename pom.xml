@@ -78,13 +78,16 @@
 
 	</dependencies>
 
-	<distributionManagement>
+	<repositories>
 		<repository>
-			<id>mvn-repo</id>
-			<name>GitHub OWNER Apache Maven Packages</name>
-			<url>https://maven.pkg.github.com/danielcorreaa/mvn-repo</url>
+			<id>tech-challenge-core-mvn-repo</id>
+			<url>https://raw.github.com/danielcorreaa/hackathon-ponto-eletronico-core/mvn-repo/</url>
+			<snapshots>
+				<enabled>true</enabled>
+				<updatePolicy>always</updatePolicy>
+			</snapshots>
 		</repository>
-	</distributionManagement>
+	</repositories>
 
 	<build>
 		<plugins>

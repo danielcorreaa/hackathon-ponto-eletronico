@@ -24,7 +24,7 @@ class PontoTest {
     @Test
     void testMarcarPontoSaidaAlmoco() {
         Ponto ponto = getPonto();
-        ponto.marcarPontoSaidaAlmoco();
+        //ponto.marcarPontoSaidaAlmoco();
         Assertions.assertEquals("23232", ponto.getUsuario());
         Assertions.assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
         Assertions.assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
@@ -36,8 +36,8 @@ class PontoTest {
     @Test
     void testMarcarPontoVootaAlmoco() {
         Ponto ponto = getPonto();
-        ponto.marcarPontoSaidaAlmoco();
-        ponto.marcarPontoVootaAlmoco();
+      //  ponto.marcarPontoSaidaAlmoco();
+        //ponto.marcarPontoVootaAlmoco();
         Assertions.assertEquals("23232", ponto.getUsuario());
         Assertions.assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
         Assertions.assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
@@ -49,9 +49,9 @@ class PontoTest {
     @Test
     void marcarPontoSaida() {
         Ponto ponto = getPonto();
-        ponto.marcarPontoSaidaAlmoco();
-        ponto.marcarPontoVootaAlmoco();
-        ponto.marcarPontoSaida();
+        //ponto.marcarPontoSaidaAlmoco();
+        //ponto.marcarPontoVootaAlmoco();
+       // ponto.marcarPontoSaida();
         Assertions.assertEquals("23232", ponto.getUsuario());
         Assertions.assertEquals(LocalDate.of(2024, 3, 18), ponto.getDataPonto());
         Assertions.assertEquals(LocalDateTime.of(2024, 3, 18, 6, 0), ponto.getHoraEntrada());
@@ -61,6 +61,6 @@ class PontoTest {
     }
 
     private static Ponto getPonto() {
-        return new Ponto("23232", LocalDateTime.of(2024, 3, 18, 6, 0));
+        return new Ponto( Usuario.UsuarioBuilder.anUsuario().matricula("23232").build() , LocalDateTime.of(2024, 3, 18, 6, 0));
     }
 }

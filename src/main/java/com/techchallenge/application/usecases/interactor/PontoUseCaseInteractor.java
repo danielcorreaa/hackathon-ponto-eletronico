@@ -10,12 +10,12 @@ import com.techchallenge.core.exceptions.NotFoundException;
 import com.techchallenge.domain.entity.Usuario;
 import com.techchallenge.infrastructure.api.mapper.EmailValues;
 import com.techchallenge.infrastructure.helper.DataHelper;
-import org.springframework.stereotype.Service;
+import jakarta.annotation.Nonnull;
+import org.springframework.scheduling.annotation.Async;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
 public class PontoUseCaseInteractor implements PontoUseCase {
 
     private PontoGateway pontoGateway;
@@ -53,7 +53,7 @@ public class PontoUseCaseInteractor implements PontoUseCase {
 
     @Override
     public void gerarRelatorioPorMes(int mes, int ano, String loginUsuario) {
-        if(mes < DataHelper.mesAtual()){
+        if(mes == DataHelper.mesAtual()){
             throw new BusinessException("Relatório não pode ser gerado para o mês corrente");
         }
         Usuario usuario =  usuarioGateway.findById(loginUsuario);
@@ -64,6 +64,13 @@ public class PontoUseCaseInteractor implements PontoUseCase {
         }
 
         Email email = toEmail(emailValues, usuario, ".pdf");
+
+        Tas
+        processar(mes, pontos,usuario,email);
+    }
+
+    @Async("gerar-relatorio")
+    public void processar(int mes, List<Ponto> pontos, Usuario usuario, Email email) {
         generateGateway.generate(pontos, usuario, DataHelper.nomeMes(mes), email.getAnexo());
         emailGateway.send(email);
     }
