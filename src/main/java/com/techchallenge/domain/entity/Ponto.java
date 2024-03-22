@@ -78,6 +78,10 @@ public class Ponto {
         return (double) ((segundos / 60.0) / 60.0);
     }
 
+    public String horasTrabalhadasString(){
+        return String.format("%.2f", horasTrabalhadas());
+    }
+
     public Optional<String> getId() {
         return Optional.ofNullable(pontoId.getId());
     }

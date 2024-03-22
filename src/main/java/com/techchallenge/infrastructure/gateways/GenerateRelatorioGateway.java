@@ -44,6 +44,7 @@ public class GenerateRelatorioGateway implements GenerateGateway {
                 document.add(new Chunk("Almoço : " +ponto.getHoraSaidaAlmocoFormat().orElse("")+ "\n", fontLista));
                 document.add(new Chunk("Retorno: " +ponto.getHoraVoltaAlmocoFormat().orElse("")+ "\n", fontLista));
                 document.add(new Chunk("Encerramento: " +ponto.getHoraSaidaFormat().orElse("")+ "\n", fontLista));
+                document.add(new Chunk("Horas Trabalhadas: " +ponto.horasTrabalhadasString()+ "\n", fontLista));
                 document.add(new Chunk("\n", font));
             }
             double horas = pontos.stream().mapToDouble( Ponto::horasTrabalhadas).sum();
