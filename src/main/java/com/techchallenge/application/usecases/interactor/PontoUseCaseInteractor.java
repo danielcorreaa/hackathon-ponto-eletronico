@@ -51,29 +51,22 @@ public class PontoUseCaseInteractor implements PontoUseCase {
         return pontoGateway.findById(id).orElseThrow(() -> new NotFoundException("Ponto não encontrado!"));
     }
 
+    @Async("gerar-relatorio")
     @Override
     public void gerarRelatorioPorMes(int mes, int ano, String loginUsuario) {
-        if(mes == DataHelper.mesAtual()){
-            throw new BusinessException("Relatório não pode ser gerado para o mês corrente");
-        }
         Usuario usuario =  usuarioGateway.findById(loginUsuario);
 
         List<Ponto> pontos = pontoGateway.buscarPontoMensalPorUsuario(mes, ano, usuario.getMatricula());
+
         if(pontos.isEmpty()){
             throw new BusinessException("Não foi encontrado nenhum ponto para o período informado");
         }
 
         Email email = toEmail(emailValues, usuario, ".pdf");
 
-        processar(mes, pontos,usuario,email);
-    }
-
-    @Async("gerar-relatorio")
-    public void processar(int mes, List<Ponto> pontos, Usuario usuario, Email email) {
         generateGateway.generate(pontos, usuario, DataHelper.nomeMes(mes), email.getAnexo());
         emailGateway.send(email);
     }
-
     public Email toEmail(EmailValues emailValues, Usuario usuario, String extensao) {
         return Email.EmailBuilder.anEmail()
                 .anexo(String.format("%s--%s.%s", emailValues.getAnexo(), usuario.getMatricula(), extensao ))
