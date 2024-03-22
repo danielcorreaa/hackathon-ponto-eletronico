@@ -33,20 +33,24 @@ public class Ponto {
         this.ano = horaEntrada.getYear();
     }
 
-    public Ponto marcarPonto(){
+    public Ponto marcarPonto(LocalDateTime now){
         if(isHoraAlmoco()){
-            this.horaSaidaAlmoco = LocalDateTime.now();
+            this.horaSaidaAlmoco = now;
             return this;
         }
         if(isVoltaAlmoco()){
-            this.horaVoldaAlmoco = LocalDateTime.now();
+            this.horaVoldaAlmoco = now;
             return  this;
         }
         if(isHoraSaida()){
-            this.horaSaida = LocalDateTime.now();
+            this.horaSaida = now;
             return this;
         }
         return  this;
+    }
+
+    public Ponto marcarPonto(){
+        return marcarPonto(LocalDateTime.now());
     }
 
     private boolean isHoraSaida() {

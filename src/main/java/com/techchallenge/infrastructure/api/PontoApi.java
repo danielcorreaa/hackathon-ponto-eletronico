@@ -2,6 +2,7 @@ package com.techchallenge.infrastructure.api;
 
 import com.techchallenge.application.usecases.PontoUseCase;
 import com.techchallenge.application.usecases.TokenUseCase;
+import com.techchallenge.core.exceptions.BusinessException;
 import com.techchallenge.domain.entity.Email;
 import com.techchallenge.domain.entity.Ponto;
 import com.techchallenge.domain.entity.Usuario;
@@ -10,6 +11,7 @@ import com.techchallenge.infrastructure.api.dto.RelatorioRequest;
 import com.techchallenge.infrastructure.api.mapper.EmailValues;
 import com.techchallenge.infrastructure.api.mapper.PontoMapper;
 import com.techchallenge.core.response.Result;
+import com.techchallenge.infrastructure.helper.DataHelper;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
@@ -54,9 +56,14 @@ public class PontoApi {
     @PostMapping("/relatorio/mensal")
     public ResponseEntity<Result<String>> gerarRelatorio(HttpServletRequest request,
                                                          @RequestBody @Valid RelatorioRequest relatorioRequest) {
+        if(relatorioRequest.mes() == DataHelper.mesAtual()){
+            throw new BusinessException("Relatório não pode ser gerado para o mês corrente");
+        }
         String tokenJwt = tokenUseCase.recuperarToken(request);
         String loginUsuario = tokenUseCase.getSubject(tokenJwt);
+
         pontoUseCase.gerarRelatorioPorMes(relatorioRequest.mes(), relatorioRequest.ano(), loginUsuario);
+
         return ResponseEntity.ok(Result.ok("Gerando relatório"));
     }
 }

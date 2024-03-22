@@ -3,8 +3,8 @@ package com.techchallenge.infrastructure.api.dto;
 import jakarta.validation.constraints.NotNull;
 
 public record RelatorioRequest(
-        @NotNull(message = "Mes não pode ser nulo")
+        @NotNull(message = "Informar mes é obrigatório")
         Integer mes,
-        @NotNull(message = "Ano não pode ser nulo")
+        @NotNull(message = "Informar ano é obrigatório")
         Integer ano) {
 }

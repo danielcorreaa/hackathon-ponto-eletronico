@@ -10,12 +10,12 @@ import com.techchallenge.core.exceptions.NotFoundException;
 import com.techchallenge.domain.entity.Usuario;
 import com.techchallenge.infrastructure.api.mapper.EmailValues;
 import com.techchallenge.infrastructure.helper.DataHelper;
-import org.springframework.stereotype.Service;
+import jakarta.annotation.Nonnull;
+import org.springframework.scheduling.annotation.Async;
 
 import java.time.LocalDateTime;
 import java.util.List;
 
-@Service
 public class PontoUseCaseInteractor implements PontoUseCase {
 
     private PontoGateway pontoGateway;
@@ -51,23 +51,22 @@ public class PontoUseCaseInteractor implements PontoUseCase {
         return pontoGateway.findById(id).orElseThrow(() -> new NotFoundException("Ponto não encontrado!"));
     }
 
+    @Async("gerar-relatorio")
     @Override
     public void gerarRelatorioPorMes(int mes, int ano, String loginUsuario) {
-        if(mes < DataHelper.mesAtual()){
-            throw new BusinessException("Relatório não pode ser gerado para o mês corrente");
-        }
         Usuario usuario =  usuarioGateway.findById(loginUsuario);
 
         List<Ponto> pontos = pontoGateway.buscarPontoMensalPorUsuario(mes, ano, usuario.getMatricula());
+
         if(pontos.isEmpty()){
             throw new BusinessException("Não foi encontrado nenhum ponto para o período informado");
         }
 
         Email email = toEmail(emailValues, usuario, ".pdf");
+
         generateGateway.generate(pontos, usuario, DataHelper.nomeMes(mes), email.getAnexo());
         emailGateway.send(email);
     }
-
     public Email toEmail(EmailValues emailValues, Usuario usuario, String extensao) {
         return Email.EmailBuilder.anEmail()
                 .anexo(String.format("%s--%s.%s", emailValues.getAnexo(), usuario.getMatricula(), extensao ))

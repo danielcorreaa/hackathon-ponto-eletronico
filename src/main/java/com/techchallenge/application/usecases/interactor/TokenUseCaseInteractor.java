@@ -7,7 +7,6 @@ import com.techchallenge.domain.entity.Usuario;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.stereotype.Service;
 
-@Service
 public class TokenUseCaseInteractor implements TokenUseCase {
 
     private TokenGateway tokenGateway;

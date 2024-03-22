@@ -1,23 +1,23 @@
 server:
-  port: 8082
+  port: 8084
 spring:
   application:
     name: thackathon-ponto-eletronico
   data:
     mongodb:
-        authentication-database: admin
-        host: ${MONGO_HOST}
-        port:
-        database: tech-challenge-payment
-        username: ${MONGO_USERNAME}
-        password: ${MONGO_PASSWORD}
+      authentication-database: admin
+      host: localhost
+      port: 27017
+      database: tech-ponto
+      username: root
+      password: example
 
 
   main:
     allow-bean-definition-overriding: true
   mail:
     host: smtp.gmail.com
-    password: ${EMAIL_PASSWORD}
+    password: lxzi mgpi owfg ruvd
     port: 587
     properties:
       mail:
@@ -46,4 +46,4 @@ mail:
 api:
   security:
     token:
-      secret: ${TOKEN_SECURITY}
+      secret: 123445

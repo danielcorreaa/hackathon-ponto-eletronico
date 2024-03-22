@@ -28,19 +28,27 @@ spec:
         env:
           - name: MONGO_HOST
             value: mongo-db
-
           - name: MONGO_USERNAME
             valueFrom:
               configMapKeyRef:
                 name: mongo-config-map
                 key: mongo-username
-
           - name: MONGO_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: mongo-secret
                 key: mongo-password
 
+          - name: TOKEN_SECURITY
+            valueFrom:
+              secretKeyRef:
+                name: token-security
+                key: TOKEN_SECURITY
+          - name: EMAIL_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: email-password
+                key: EMAIL_PASSWORD
 
 
 ---
