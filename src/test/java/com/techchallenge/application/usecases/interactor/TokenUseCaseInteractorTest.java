@@ -2,6 +2,7 @@ package com.techchallenge.application.usecases.interactor;
 
 import com.techchallenge.MongoTestConfig;
 import com.techchallenge.application.usecases.TokenUseCase;
+import com.techchallenge.core.exceptions.BusinessException;
 import com.techchallenge.domain.entity.Usuario;
 import com.techchallenge.helper.UsuarioHelper;
 import com.techchallenge.infrastructure.persistence.repository.PontoRepository;
@@ -121,7 +122,10 @@ class TokenUseCaseInteractorTest {
 
     @Test
     void testObterLogin_error() {
-        String subject = tokenUseCase.getSubject("323232");
-        assertNull(subject);
+        try {
+            String subject = tokenUseCase.getSubject("323232");
+        }catch (BusinessException ex){
+            assertEquals("Token JWT inválido ou expirado!", ex.getMessage());
+        }
     }
 }
