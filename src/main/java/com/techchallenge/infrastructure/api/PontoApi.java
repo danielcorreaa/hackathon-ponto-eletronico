@@ -21,7 +21,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("api/v1/ponto")
-@Tag(name = "Login API")
+@Tag(name = "Ponto API")
 public class PontoApi {
 
     private final PontoUseCase pontoUseCase;

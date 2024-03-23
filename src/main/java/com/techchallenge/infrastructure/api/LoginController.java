@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/login")
-@Tag(name = "Ponto API")
+@Tag(name = "Login API")
 public class LoginController {
 
     private final TokenUseCase tokenUseCase;
