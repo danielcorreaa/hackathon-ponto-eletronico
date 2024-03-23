@@ -18,7 +18,7 @@ public record PontoResponse(String id,
 
         @JsonDeserialize(using = LocalDateDeserializer.class)
         @JsonSerialize(using = LocalDateSerializer.class)
-        @JsonFormat(pattern = "dd/MM/yyyY")
+        @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate dataPonto,
 
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)
@@ -38,5 +38,5 @@ public record PontoResponse(String id,
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)
         @JsonSerialize(using = LocalDateTimeSerializer.class)
         @JsonFormat(pattern = "dd/MM/yyyy HH:mm:ss")
-        LocalDateTime horaSaida, int mes, int ano) {
+        LocalDateTime horaSaida, int mes, int ano, String horasTrabalhadas) {
 }

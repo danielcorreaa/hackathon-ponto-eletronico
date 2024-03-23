@@ -20,12 +20,14 @@ public class PontoMapper {
                 .horaVoldaAlmoco(ponto.getHoraVoldaAlmoco())
                 .ano(ponto.getAno())
                 .mes(ponto.getMes())
+                .horasTrabalhadas(ponto.horasTrabalhadasString())
                 .build();
     }
 
     public ListaPontoResponse toPontoResponseList(List<Ponto> pontos) {
         double horas = pontos.stream().mapToDouble( Ponto::horasTrabalhadas).sum();
         var pontosResponse = pontos.stream().map(this::toPontoResponse).toList();
-        return new ListaPontoResponse(pontosResponse, horas);
+
+        return new ListaPontoResponse(pontosResponse,  String.format("%.2f", horas));
     }
 }

@@ -20,6 +20,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.Month;
 
@@ -102,6 +103,17 @@ class PontoApiTest {
         mockMvc.perform(post("/api/v1/ponto//relatorio/mensal")
                         .contentType(MediaType.APPLICATION_JSON).content(jsonUtils.toJson(request).orElse("")))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    void testGerarRelatorioPorMesAno_mesCorrete() throws Exception {
+        int mesAtual = LocalDate.now().getMonth().getValue();
+        RelatorioRequest request = RelatorioRequest.builder().ano(2024).mes(mesAtual).build();
+
+
+        mockMvc.perform(post("/api/v1/ponto//relatorio/mensal")
+                        .contentType(MediaType.APPLICATION_JSON).content(jsonUtils.toJson(request).orElse("")))
+                .andExpect(status().isBadRequest());
     }
 
 
