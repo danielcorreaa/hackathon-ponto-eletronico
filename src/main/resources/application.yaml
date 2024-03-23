@@ -47,3 +47,12 @@ api:
   security:
     token:
       secret: ${TOKEN_SECURITY}
+
+
+swagger:
+  title: Ponto Eletrônico
+  version: 1.0
+  description: APi para cadastro e pesquisa de Pontos
+  contact:
+    name: Daniel A. Correa
+    email: daniel.cor@outlook.com
