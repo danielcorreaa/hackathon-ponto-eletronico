@@ -14,6 +14,16 @@ Serviço responsável pelo gerenciamento de ponto eletronico
 **Back-end:** Java, Spring Boot, Mongodb, Spring Security
 
 
+## Sonar
+
+- [@Sonar.](https://sonarcloud.io/project/branches_list?id=danielcorreaa_hackathon-ponto-eletronico)
+
+## Docker hub 
+
+- [@repositorio](https://hub.docker.com/repository/docker/daniel36/hackathon-ponto-eletronico/general)
+
+
+
 #### Desenhos
 
 - [@Fase 1 Sistema.](https://danielcorreaa.github.io/tech-challenge-orders/images/desenho-fase-1.png)
