@@ -26,8 +26,8 @@ Serviço responsável pelo gerenciamento de ponto eletronico
 
 #### Desenhos
 
-- [@Fase 1 Sistema.](https://danielcorreaa.github.io/tech-challenge-orders/images/desenho-fase-1.png)
+- [@Fase 1 Sistema.](https://danielcorreaa.github.io/hackathon-ponto-eletronico/images/desenho-fase-1.png)
 
-- [@Fase 1 arquitetura.](https://danielcorreaa.github.io/tech-challenge-orders/images/desenho-arquitetura-fase-1.png)
+- [@Fase 1 arquitetura.](https://danielcorreaa.github.io/hackathon-ponto-eletronico/images/desenho-arquitetura-fase-1.png)
 
-- [@Fase 2 Evolução.](https://danielcorreaa.github.io/tech-challenge-orders/images/desenho-fase-2-update.png)
+- [@Fase 2 Evolução.](https://danielcorreaa.github.io/hackathon-ponto-eletronico/images/desenho-fase-2-update.png)
