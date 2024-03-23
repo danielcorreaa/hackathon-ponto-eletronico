@@ -18,7 +18,7 @@ public record PontoResponse(String id,
 
         @JsonDeserialize(using = LocalDateDeserializer.class)
         @JsonSerialize(using = LocalDateSerializer.class)
-        @JsonFormat(pattern = "dd/MM/yyyY")
+        @JsonFormat(pattern = "dd/MM/yyyy")
         LocalDate dataPonto,
 
         @JsonDeserialize(using = LocalDateTimeDeserializer.class)
